@@ -1,0 +1,26 @@
+USE 250864555assign2db;
+
+DELETE FROM doctor WHERE license_date < "19650101";
+
+-- We cannot delete these doctors from the doctor table because they are referenced by the hospital table as managers.
+
+CREATE VIEW new_head_patients AS
+SELECT patient.first_name, patient.last_name 
+FROM patient, treats, doctor
+WHERE patient.ohip = treats.ohip 
+AND treats.license_number = doctor.license_number
+AND doctor.license_number IN (SELECT manager FROM hospital WHERE manager_date > "19951231");
+
+SELECT * FROM new_head_patients;
+
+SELECT * FROM doctor;
+SELECT * FROM treats;
+
+DELETE FROM doctor WHERE last_name = "Clooney";
+
+SELECT * FROM treats;
+SELECT * FROM doctor;
+
+DELETE FROM doctor WHERE speciality = "Surgeon";
+
+-- these doctors were not deleted because they are heads of the hospital, and our foreign key constraint in our hospital table will throw an error.

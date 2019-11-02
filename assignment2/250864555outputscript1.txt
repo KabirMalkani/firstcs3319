@@ -1,0 +1,102 @@
+Warning: Using a password on the command line interface can be insecure.
+--------------
+SHOW DATABASES
+--------------
+
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| 250864555assign2db |
+| mysql              |
+| performance_schema |
+| vetoffice          |
++--------------------+
+5 rows in set (0.00 sec)
+
+--------------
+DROP DATABASE IF EXISTS 250864555assign2db
+--------------
+
+Query OK, 4 rows affected (0.09 sec)
+
+--------------
+CREATE DATABASE 250864555assign2db
+--------------
+
+Query OK, 1 row affected (0.00 sec)
+
+--------------
+GRANT USAGE ON *.* TO ta@localhost
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+DROP USER ta@localhost
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+ERROR 1064 (42000) at line 7: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'cs3319' at line 1
+--------------
+CREATE USER ta@localhost IDENTIFIED BY cs3319
+--------------
+
+--------------
+GRANT ALL PRIVILEGES ON yourwesternuseridassign2db.* TO ta@localhost
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+FLUSH PRIVILEGES
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+SHOW TABLES
+--------------
+
+Empty set (0.00 sec)
+
+--------------
+CREATE TABLE doctor( license_number VARCHAR(4) NOT NULL, first_name VARCHAR(20), last_name VARCHAR(20), speciality VARCHAR(30), license_date DATE, works_at VARCHAR(20), PRIMARY KEY (license_number))
+--------------
+
+Query OK, 0 rows affected (0.14 sec)
+
+--------------
+CREATE TABLE hospital( code CHAR(3) NOT NULL, name VARCHAR(20), city VARCHAR(20), province CHAR(2), beds int, manager VARCHAR(4), manager_date DATE, PRIMARY KEY (code), FOREIGN KEY (manager) REFERENCES doctor(license_number))
+--------------
+
+Query OK, 0 rows affected (0.07 sec)
+
+--------------
+CREATE TABLE patient(ohip int NOT NULL, first_name VARCHAR(20), last_name VARCHAR(20), PRIMARY KEY (ohip))
+--------------
+
+Query OK, 0 rows affected (0.06 sec)
+
+--------------
+CREATE TABLE treats(ohip int NOT NULL, license_number VARCHAR(20) NOT NULL, PRIMARY KEY (ohip, license_number), FOREIGN KEY (ohip) REFERENCES patient(ohip), FOREIGN KEY (license_number) REFERENCES doctor(license_number) ON DELETE CASCADE)
+--------------
+
+Query OK, 0 rows affected (0.05 sec)
+
+--------------
+SHOW TABLES
+--------------
+
++------------------------------+
+| Tables_in_250864555assign2db |
++------------------------------+
+| doctor                       |
+| hospital                     |
+| patient                      |
+| treats                       |
++------------------------------+
+4 rows in set (0.00 sec)
+
+Bye

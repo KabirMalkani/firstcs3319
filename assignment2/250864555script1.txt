@@ -1,0 +1,21 @@
+SHOW DATABASES;
+DROP DATABASE IF EXISTS 250864555assign2db;
+CREATE DATABASE 250864555assign2db;
+USE 250864555assign2db;
+GRANT USAGE ON *.* TO ta@localhost;
+DROP USER ta@localhost;
+CREATE USER ta@localhost IDENTIFIED BY cs3319;
+GRANT ALL PRIVILEGES ON yourwesternuseridassign2db.* TO ta@localhost;
+FLUSH PRIVILEGES;
+SHOW TABLES;
+
+
+CREATE TABLE doctor( license_number VARCHAR(4) NOT NULL, first_name VARCHAR(20), last_name VARCHAR(20), speciality VARCHAR(30), license_date DATE, works_at VARCHAR(20), PRIMARY KEY (license_number));
+
+CREATE TABLE hospital( code CHAR(3) NOT NULL, name VARCHAR(20), city VARCHAR(20), province CHAR(2), beds int, manager VARCHAR(4), manager_date DATE, PRIMARY KEY (code), FOREIGN KEY (manager) REFERENCES doctor(license_number));
+
+CREATE TABLE patient(ohip int NOT NULL, first_name VARCHAR(20), last_name VARCHAR(20), PRIMARY KEY (ohip));
+
+CREATE TABLE treats(ohip int NOT NULL, license_number VARCHAR(20) NOT NULL, PRIMARY KEY (ohip, license_number), FOREIGN KEY (ohip) REFERENCES patient(ohip), FOREIGN KEY (license_number) REFERENCES doctor(license_number) ON DELETE CASCADE);
+
+SHOW TABLES;

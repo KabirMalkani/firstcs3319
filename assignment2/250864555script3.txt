@@ -1,0 +1,44 @@
+USE 250864555assign2db;
+
+-- Query 1
+SELECT last_name FROM patient;
+
+-- Query 2
+SELECT DISTINCT last_name FROM patient;
+
+-- Query 3
+SELECT * FROM doctor ORDER BY last_name ASC;
+
+-- Query 4
+SELECT name, code FROM hospital WHERE beds > 1500;
+
+-- Query 5
+SELECT doctor.last_name, doctor.first_name FROM doctor, hospital WHERE doctor.works_at = hospital.code AND hospital.name = "St. Joseph";
+
+-- Query 6
+SELECT first_name, last_name FROM patient WHERE last_name LIKE "G%";
+
+-- Query 7
+SELECT patient.first_name, patient.last_name FROM patient, treats, doctor WHERE patient.ohip = treats.ohip AND treats.license_number = doctor.license_number AND 
+doctor.last_name = "Clooney";
+
+-- Query 8
+SELECT hospital.name, hospital.city, doctor.last_name FROM hospital, doctor WHERE hospital.manager = doctor.license_number;
+
+-- Query 9
+SELECT SUM(beds) AS "Total Number of Beds" FROM hospital;
+
+-- Query 10
+SELECT patient.first_name as "Patient", doctor.last_name as "Doctor" FROM patient, treats, doctor WHERE patient.ohip = treats.ohip AND treats.license_number = 
+doctor.license_number AND doctor.license_number IN (SELECT manager FROM hospital);
+
+-- Query 11
+SELECT doctor.last_name, doctor.first_name FROM doctor, hospital WHERE doctor.speciality = "Surgeon" AND doctor.works_at = hospital.code AND hospital.name = "Victoria";
+
+-- Query 12
+SELECT first_name FROM doctor WHERE license_number NOT IN (SELECT license_number FROM treats);
+
+-- Query 13
+SELECT first_name, last_name FROM doctor WHERE license_number IN (SELECT license_number FROM treats GROUP BY license_number HAVING COUNT(ohip) > 1);
+
+
